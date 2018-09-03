@@ -142,7 +142,6 @@ import numpy as np
 import random as r
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
-from braces.views import CsrfExemptMixin
 from django.utils.decorators import method_decorator
 import zlib
 import os
