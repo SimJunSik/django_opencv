@@ -278,11 +278,11 @@ class ThumbnailViewSet(viewsets.ModelViewSet) :
 
 	def list(self, request, *args, **kwargs):
 		try :
-			print('카메라를 구동합니다.')
+			print('영상을 구동합니다.')
 			cap = cv2.VideoCapture('./media/dog2.mp4')
 
 		except :
-			print('카메라 구동 실패')
+			print('영상 구동 실패')
 			return
 
 		myFrameNumber = r.randint(10,100)
@@ -399,7 +399,17 @@ class ThumbnailViewSet(viewsets.ModelViewSet) :
 		img.save('./media/' + user_id + '.png')
 
 		#thumbnail_list = Thumbnail.objects.all()
-		thumbnail_list = Thumbnail.objects.filter(user_id = 'junsik')
+		thumbnail_list = Thumbnail.objects.filter(user_id = user_id)
+
+		"""
+		Load & Add Friend Thumbnail List
+		friend_list = FriendList.objects.filter(user_id = user_id)
+		if friend_list : 
+			for friend_id in friend_list :
+				friend_thumbnail_list = Thumbnail.objects.filter(user_id = friend_id)
+				thumbnail_list.extend(friend_thumbnail_list)
+		"""
+
 		max_id = 0
 		max_ssim = 0
 		max_flann = 0
@@ -443,8 +453,8 @@ class ThumbnailViewSet(viewsets.ModelViewSet) :
 
 
 		try :
-			#os.remove('./media/' + user_id + '.png')
-			pass
+			os.remove('./media/' + user_id + '.png')
+			#pass
 		except :
 			pass
 
