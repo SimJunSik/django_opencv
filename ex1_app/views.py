@@ -398,7 +398,8 @@ class ThumbnailViewSet(viewsets.ModelViewSet) :
 		#img.save('./media/test.png')
 		img.save('./media/' + user_id + '.png')
 
-		thumbnail_list = Thumbnail.objects.all()
+		#thumbnail_list = Thumbnail.objects.all()
+		thumbnail_list = Thumbnail.objects.filter(user_id = 'junsik')
 		max_id = 0
 		max_ssim = 0
 		max_flann = 0

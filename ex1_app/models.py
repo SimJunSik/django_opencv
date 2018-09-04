@@ -24,6 +24,7 @@ class User(models.Model):
 
 class Thumbnail(models.Model) :
     #thumbnail_id = models.AutoField(primary_key=True, default = 1)
+    user_id = models.CharField(max_length=20, default='none')
     thumbnail_id = models.IntegerField(primary_key=True, default = 1)
     bytes_list = models.TextField('DESCRIPTION')
     img = models.ImageField(default='./my.png', upload_to='')
