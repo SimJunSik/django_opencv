@@ -31,3 +31,21 @@ class TestSerializer(serializers.ModelSerializer):
         model = TestModel
 
         fields = ('Name',)
+
+
+class ClientSerializer(serializers.ModelSerializer):
+
+    class Meta:
+
+        model = Client
+
+        fields = ('clientid','password','pub_date',)
+
+
+class PassIdSerializer(serializers.ModelSerializer):
+
+    class Meta:
+
+        model = PassId
+
+        fields = ('id',)

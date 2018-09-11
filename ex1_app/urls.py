@@ -12,6 +12,8 @@ router = routers.DefaultRouter()
 #router.register(r'users', views.UserViewSet)
 router.register(r'thumbnail', views.ThumbnailViewSet, base_name='thumbnail')
 router.register(r'getframe', views.GetframeViewSet, base_name='getframe')
+router.register(r'clients', views.ClientViewSet)
+router.register(r'post', views.PassIdViewSet)
 
 """
 thumbnail = views.ThumbnailViewSet.as_view({

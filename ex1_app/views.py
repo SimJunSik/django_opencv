@@ -158,7 +158,7 @@ class GetframeViewSet(viewsets.ModelViewSet) :
 		thumbnail_tmp = Thumbnail.objects.get(thumbnail_id = thumbnail_id)
 		print(thumbnail_tmp.video.url)
 		try :
-			print('카메라를 구동합니다.')
+			print('Load Video')
 			cap = cv2.VideoCapture('.' + thumbnail_tmp.video.url)
 
 		except :
@@ -278,7 +278,7 @@ class ThumbnailViewSet(viewsets.ModelViewSet) :
 
 	def list(self, request, *args, **kwargs):
 		try :
-			print('영상을 구동합니다.')
+			print('Load Video')
 			cap = cv2.VideoCapture('./media/dog2.mp4')
 
 		except :
@@ -399,16 +399,22 @@ class ThumbnailViewSet(viewsets.ModelViewSet) :
 		img.save('./media/' + user_id + '.png')
 
 		#thumbnail_list = Thumbnail.objects.all()
-		thumbnail_list = Thumbnail.objects.filter(user_id = user_id)
+		thumbnail_list = list(Thumbnail.objects.filter(user_id = user_id))
 
-		"""
-		Load & Add Friend Thumbnail List
-		friend_list = FriendList.objects.filter(user_id = user_id)
+
+		#Load & Add Friend Thumbnail List
+		friend_list = list(FriendList.objects.filter(clientid = user_id))
+		print(friend_list)
 		if friend_list : 
-			for friend_id in friend_list :
-				friend_thumbnail_list = Thumbnail.objects.filter(user_id = friend_id)
+			for friend in friend_list :
+				print(friend.friendid)
+				friend_thumbnail_list = list(Thumbnail.objects.filter(user_id = friend.friendid))
+				print(friend_thumbnail_list)
+				print(thumbnail_list)
+				#thumbnail_list.union(friend_thumbnail_list)
 				thumbnail_list.extend(friend_thumbnail_list)
-		"""
+				print(thumbnail_list)
+
 
 		max_id = 0
 		max_ssim = 0
@@ -472,8 +478,10 @@ class ThumbnailViewSet(viewsets.ModelViewSet) :
 
 		#new_thumbnail.save()
 		if max_ssim > 0.4 or max_flann >= 10 :
+			print("1",max_ssim, max_flann)
 			response_data = {"success" : "1", "max_id" : max_id, "duration" : duration, "total_sec" : total_sec}
 		else :
+			print("0",max_ssim, max_flann)
 			response_data = {"success" : "0", "max_id" : max_id, "duration" : duration, "total_sec" : total_sec}
 		return JSONResponse(response_data)
 
@@ -691,3 +699,226 @@ class GetframeViewSet2(viewsets.ModelViewSet) :
 			return response
 		except HttpResponseServerError as e:
 			print("aborted")
+
+
+
+from django.shortcuts import render
+from django.shortcuts import redirect
+from rest_framework.renderers import JSONRenderer
+from django.http import HttpResponse
+from .serializers import *
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
+from rest_framework import viewsets
+from django.core.files.storage import FileSystemStorage
+
+
+class JSONResponse(HttpResponse):
+
+    def __init__(self, data, **kwargs):
+        content = JSONRenderer().render(data, 'application/json; indent=4')
+        kwargs['content_type'] = 'application/json'
+        super(JSONResponse, self).__init__(content, **kwargs)
+
+@api_view(['GET','POST'])
+def test_list(request, format=None):
+
+    if request.method == 'GET':
+        packages = TestModel.objects.all()
+        serializer = TestSerializer(packages, many=True)
+        return JSONResponse(serializer.data)
+
+
+class PassIdViewSet(viewsets.ModelViewSet):
+	queryset = PassId.objects.all()
+	serializer_class = PassIdSerializer
+
+
+	def create(self, request, *args, **kwargs):
+		print(request.data['passid'])
+		response_data={"success": "1"}
+		return JSONResponse(response_data)
+
+def test(request):
+	return render(request, "./newtest/index.html")
+
+
+class ClientViewSet(viewsets.ModelViewSet):
+	queryset = Client.objects.all()
+	serializer_class = ClientSerializer
+
+
+
+
+def upload_file(request):
+	if request.method == 'POST':
+		clientid = request.POST.get("clientid",False)
+		img = request.FILES['img']
+		video = request.FILES['video']
+
+		fs = FileSystemStorage()
+		#filename = fs.save(img.name, img)
+		file = Media(clientid = clientid, 
+			img = img, 
+			video = video
+			)
+		file.save()
+
+		return render(request, 'newtest/index.html')
+
+	else :
+		#print(request.path.split('/')[2])
+		context = { 'clientid' : request.path.split('/')[2] 			
+		}
+
+		return render(request, 'newtest/index.html', context)
+
+
+def show_file(request):
+	
+	if(request.method=='GET') :
+		medias = Media.objects.filter(clientid = request.path.split('/')[2])
+
+		context = { 'clientid' : request.path.split('/')[2] ,
+					'medias' : medias
+		}
+
+		return render(request, 'newtest/index2.html', context)
+
+	else:
+		return render(request, 'newtest/index2.html')
+
+
+
+
+def friend_add(request):
+	if request.method == 'POST':
+		clientid = request.POST.get("friendid",False)
+		friendid = request.POST.get("clientid",False)
+		print(clientid, friendid)
+
+
+		fs = FileSystemStorage()
+		#filename = fs.save(img.name, img)
+		file = FriendAddList(
+			clientid = clientid, 
+			friendid = friendid
+			)
+
+		file.save()
+
+		addlist = FriendAddList.objects.filter(clientid = friendid)
+		flist = FriendList.objects.filter(clientid = friendid)
+		#print(flist)
+		context = { 'clientid' : friendid, 
+					'addlist' : addlist, 
+					'flist' : flist,	
+		}
+		print(context)
+
+
+		return render(request, 'newtest/friend.html', context)
+
+	else :
+
+		addlist = FriendAddList.objects.filter(clientid = request.path.split('/')[2])
+		flist = FriendList.objects.filter(clientid = request.path.split('/')[2])
+		#print(flist)
+		context = { 'clientid' : request.path.split('/')[2], 
+					'addlist' : addlist, 
+					'flist' : flist,	
+		}
+
+		return render(request, 'newtest/friend.html', context)
+
+
+def friend_list(request):
+
+	if request.POST.get("yes",False) == '1':
+		clientid = request.POST.get("clientid",False)
+		friendid = request.POST.get("friendid",False)
+		fs = FileSystemStorage()
+		#filename = fs.save(img.name, img)
+		file = FriendList(
+			clientid = clientid, 
+			friendid = friendid
+			)
+		file2 = FriendList(
+			clientid = friendid, 
+			friendid = clientid
+			)		
+		file.save()
+		file2.save()
+
+		#friendAddList에 있는 목록 삭제 
+		f_list = FriendAddList.objects.filter(clientid=clientid,friendid=friendid)
+		for f in f_list :
+			f.delete()
+
+		addlist = FriendAddList.objects.filter(clientid = clientid)
+		flist = FriendList.objects.filter(clientid = clientid)
+		context = { 'clientid' : clientid, 
+					'addlist' : addlist, 
+					'flist' : flist,	
+		}
+		print(context)
+
+		return render(request, 'newtest/friendadd.html', context)
+
+	elif request.POST.get("no",False) == '0':
+
+		clientid = request.POST.get("clientid",False)
+		friendid = request.POST.get("friendid",False)
+
+		f_list = FriendAddList.objects.filter(clientid=clientid,friendid=friendid)
+		for f in f_list :
+			f.delete()
+
+		addlist = FriendAddList.objects.filter(clientid = clientid)
+		flist = FriendList.objects.filter(clientid = clientid)
+		context = { 'clientid' : clientid, 
+					'addlist' : addlist, 
+					'flist' : flist,	
+		}
+
+		return render(request, 'newtest/friendadd.html', context)
+
+	else :
+
+		addlist = FriendAddList.objects.filter(clientid = request.path.split('/')[2])
+		flist = FriendList.objects.filter(clientid = request.path.split('/')[2])
+		print(flist)
+		context = { 'clientid' : request.path.split('/')[2], 
+					'addlist' : addlist, 
+					'flist' : flist,	
+		}
+
+		return render(request,'newtest/friendadd.html',context)
+
+def ajaxpass(request):
+	friendid = request.GET.get('friendid', None)
+	clientid = request.GET.get('clientid', None)
+	print(friendid, clientid)
+
+	getfriend = FriendList.objects.filter(clientid = clientid)
+	exfriend = Client.objects.filter(clientid = friendid)
+
+	print(getfriend)
+	print(exfriend)
+
+	if friendid == clientid :
+		context = {'hihi': '4' }
+		return JSONResponse(context)
+
+	for a in exfriend :
+		for b in getfriend :
+			if b.friendid == clientid : 
+				context = {'hihi' : '1' }
+				return JSONResponse(context)
+
+		context = {'hihi' : '3' }
+		return JSONResponse(context)
+
+	context = {'hihi' : '2'}
+	return JSONResponse(context)
