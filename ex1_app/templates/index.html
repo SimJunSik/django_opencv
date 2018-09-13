@@ -1,0 +1,88 @@
+<link rel = "stylesheet" type = "text/css" href = "../../static/newtest/style.css" />
+<link href="https://fonts.googleapis.com/css?family=Hi+Melody|Indie+Flower|Nanum+Gothic+Coding|Nanum+Pen+Script|Roboto" rel="stylesheet">
+
+
+
+<html>
+<head>
+
+<script type="text/javascript">
+
+   function check(){
+      if(next.img.value=="" && next.video.value==""){
+         alert("사진과 동영상을 등록해주세요.");
+         return false;
+      }
+      else if(next.img.value == ""){
+         alert("사진을 등록해주세요.");
+         return false;
+      }
+      else if(next.video.value ==""){
+         alert("동영상을 등록해주세요.");
+         return false;
+      }
+      else{
+         alert("등록되었습니다.");
+         return true;
+      }
+   }    
+
+
+</script>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+   <div class = 'wrapper'>
+     <div class = 'main'>
+        <div class = 'box'>
+
+   <form name ="next" id ="next" onsubmit = "return check();" action = "../test/{{clientid}}" method="post" enctype="multipart/form-data" novalidate>
+              {% csrf_token %}
+   
+            <div class = 'input_upload'>
+               <input type = "text" class = 'upload-name' id = 'upload-name' disabled />
+               <label for='upload' class = 'upload-hidden'>Image</label>
+               <input type="file" id = 'upload' value="upload" name="img"/>
+            </div>
+
+            <div class = 'input_upload'>
+               <input type = "text" class = 'upload-name1' id = 'upload-name1' disabled />
+               <label for='upload1' class = 'upload-hidden'>Video</label>
+               <input type="file" id='upload1' value="upload1"   name="video"/>
+            </div>
+         <br>
+         
+            <div>
+               <input type="hidden" name ="clientid" value="{{clientid}}">
+               <label for='submit' class = 'submit'>Upload</label>
+               <input type='submit' id='submit' value='submit'/> 
+            </div>   
+         
+            </form>
+          </div>
+      </div>
+   </div>
+
+</body>
+
+<script>
+    
+    var uploadname = document.querySelector('#upload-name')
+
+    upload.addEventListener('change',function (e) {
+        var files = e.target.files;
+        uploadname.value = files[0].name
+    })
+
+    var uploadname1 = document.querySelector('#upload-name1')
+ 
+
+    upload1.addEventListener('change',function (e1) {
+        var files1 = e1.target.files;
+        uploadname1.value = files1[0].name
+    })
+</script>
+</html>
+

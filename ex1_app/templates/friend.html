@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script type="text/javascript" src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+	
+<script type="text/javascript">
+    $(document).ready(function(){
+      $("#button").click(function(){
+          callAjax();
+      });
+
+    });
+    function callAjax(){
+    	var fi = $('#friend_id').val();
+    	var ci = $('#client_id').val();
+
+		$.ajax({           
+            //type : "GET",
+            url : "/ajaxpass/",
+            data: {
+            	'friendid' : fi,
+            	'clientid' : ci,
+            },
+            dataType:"json",
+            //success : whenSuccess(data)
+             success : function(data){
+             	if (data.hihi == "2"){
+					alert('아이디가 없음')
+				}
+				else if(data.hihi == "1"){
+					alert('중복스')
+				}
+				else if (data.hihi == "3"){
+					document.frm.submit()
+					alert('등록 완료')
+				}
+				else if (data.hihi == "4"){
+					alert('너를 친추할 수 없어')
+				}
+				else{
+					alert('일시적 오류')
+				}
+             },
+             error : function(data){
+             	alert("!!!!!reaewa");
+             }
+        });
+    }
+
+
+
+</script>
+
+</head>
+
+
+<body>
+	<div style="width:200px;margin-top:20px;">
+	 <form action="../friendadd/" name="frm" id = "frm" method="post">
+	 	{% csrf_token %}
+	     <div style="margin-top:20px;">
+	     	<label>추가할 아이디</label> <input type="text" name="friendid" id="friend_id">
+	     	<input type ="hidden" name = "clientid" value="{{clientid}}" id="client_id">
+	     </div>
+	     <div style="margin-top:20px;">
+	     	<input id="button" type="button" value="추가">
+	     </div>
+	 </form>
+ 	</div>
+
+<!--
+<div style="width:500px;margin:auto;margin-top:200px;">
+<form action = "../friendadd/" method="post" >
+	{% csrf_token %}
+	<div style="margin-top:20px;">
+	     	<label>추가할 아이디</label><input type="text" name="friendid">
+	</div>
+	<input type="hidden" name ="clientid" value="{{clientid}}">
+	<input type="submit" value="보내기">
+
+</form>
+-->
+
+
+
+
+<div style="width:200px;">
+<h3>친구 목록</h3>
+</div>
+<div style="width:200px;">
+{% for a in flist %}
+      {{a.friendid}}
+      <br>
+{%endfor%}
+</div>
+
+<!--
+<div style="width:200px;">
+<h3>친구 신청</h3>
+</div>
+{% for add in addlist %}
+<div style="width:200px;margin-top:30px;">
+	<div>
+      {{add.friendid}}
+  </div>
+    <div style="margin-top:5px;display: inline;float: left;">
+ <form action = "../../friendlist/", method="post">
+ 	{% csrf_token %}
+ 	<input type="hidden" name ="clientid" value="{{clientid}}">
+ 	<input type="hidden" name ="friendid" value="{{add.friendid}}">
+    <input type="hidden" name ="yes" value=1>
+    <input type= "submit" value="수락">
+
+</form>
+	</div>
+	<div style="margin-top:5px;display: inline;float: left;">
+<form action = "../../friendlist/", method="post">
+	{% csrf_token %}
+	<input type="hidden" name ="clientid" value="{{clientid}}">
+	<input type="hidden" name ="friendid" value="{{add.friendid}}">
+	<input type="hidden" name="yes", value=0>
+	<input type="submit" value="거절">
+
+</form>
+	</div>
+</div>
+
+{%endfor%}
+
+
+-->
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	
+	function check(this){
+		alert(this);
+		alert(this.yes);
+		if(this.yes.value == "1"){
+			alert("수락하셨습니다.")
+			return true;
+		}
+		else{
+			alert("수락 실패")
+			return false;
+		}
+
+	}
+
+	function check2(this){
+		if(this.no.value == "0"){
+			alert("거절하셨습니다.")
+			return true;
+		}
+		else{
+			alert("거절 실패")
+			return false;
+		}
+
+	}
+</script>
+
+</head>
+
+<body>
+
+<div style="width:200px;">
+<h3>친구 신청</h3>
+</div>
+{% for add in addlist %}
+<div style="width:200px;margin-top:30px;">
+	<div>
+      {{add.friendid}}
+  </div>
+    <div style="margin-top:5px;display: inline;float: left;">
+ <!--
+ <form action = "../../friendlist/" id ="okay" method="post">
+ -->
+
+ <form action = "../../friendlist/" onsubmit="return check(this);" name=friendadd  id ="{{add.friendid}}" method="post">
+ 	{% csrf_token %}
+ 	<input type="hidden" name ="clientid" value="{{clientid}}">
+ 	<input type="hidden" name ="friendid" value="{{add.friendid}}">
+    <input type="hidden" name ="yes" id="yes" value=1>
+    <input type= "submit" value="수락">
+
+</form>
+	</div>
+	<div style="margin-top:5px;display: inline;float: left;">
+<!--		
+<form action = "../../friendlist/" id=nop method="post">
+-->
+
+<form action = "../../friendlist/" onsubmit="return check2(this);" name=friendadd2 id="{{add.friendid}}2" method="post">
+	{% csrf_token %}
+	<input type="hidden" name ="clientid" value="{{clientid}}">
+	<input type="hidden" name ="friendid" value="{{add.friendid}}">
+	<input type="hidden" name="no" id="no" value=0>
+	<input type= "submit" value="거절">
+
+
+</form>
+	</div>
+</div>
+
+{%endfor%}
+</body>
+
+</html>

@@ -37,10 +37,19 @@ urlpatterns = [
     #url(r'^thumbnail/', csrf_exempt(views.ThumbnailViewSet), name = 'thumbnail'),
     #url(r'^thumbnail/.+$', views.ThumbnailViewSet, name = 'thumbnail'),
     url(r'^v_list/$', views.version_list),
-    url(r'^test/$', views.test_list),
+    #url(r'^test/$', views.test_list),
     url(r'^video_test/$', views.video_get_frame),
     url(r'^stream/$', views.stream_test),
     url(r'^api-v1/', include('rest_framework.urls', namespace='rest_framework_category')),
+
+    url(r'^test/.+$', views.upload_file),
+    url(r'^test2/.+$',views.show_file),
+    url(r'^friendadd/.+$',views.friend_add),
+    url(r'^friendadd2/.+$',views.friend_list),
+    url(r'^friendadd/',views.friend_add),
+    #url(r'^api-auth/', include('rest_framework.urls')),
+    url(r'^friendlist/', views.friend_list),
+    url(r'^ajaxpass/', views.ajaxpass),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 """
