@@ -1,7 +1,70 @@
 <!DOCTYPE html>
+
+<link rel = "stylesheet" type = "text/css" href = "../../static/newtest/style.css" />
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+<link rel = "stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+<style>
+
+.search {
+  width: 100%;
+  position: relative
+}
+
+#friend_id {
+  float: left;
+  width: 80%;
+  border: 3px solid #EAEAEA;
+  padding: 3px;
+  height: 36px;
+  border-radius: 5px;
+  outline: none;
+  color: #432434;
+}
+
+#friend_id:focus{
+  color: #000000;
+}
+
+#button {
+  position: absolute;  
+  right: -20px;
+  width: 50px;
+  height: 50px;
+  border: 1px solid #EAEAEA;
+  background: #FFFFFF;
+  text-align: center;
+  color: #8C8C8C;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 20px;
+  border: 3px solid #EAEAEA;
+}
+
+.wrap{
+  width: 70%;
+  position: absolute;
+  top: 10%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+}
+.friends{
+	font-size: 20px;
+	color: #000000; 
+
+	margin-left: 20px;
+}
+
+
+
+
+</style>
+
 <html>
 <head>
-<meta charset="UTF-8">
+ <meta charset="utf-8">
+
 <title>Insert title here</title>
 
 <script type="text/javascript" src="//code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -54,22 +117,24 @@
 
 </script>
 
+
 </head>
 
 
 <body>
-	<div style="width:200px;margin-top:20px;">
-	 <form action="../friendadd/" name="frm" id = "frm" method="post">
-	 	{% csrf_token %}
-	     <div style="margin-top:20px;">
-	     	<label>추가할 아이디</label> <input type="text" name="friendid" id="friend_id">
-	     	<input type ="hidden" name = "clientid" value="{{clientid}}" id="client_id">
-	     </div>
-	     <div style="margin-top:20px;">
-	     	<input id="button" type="button" value="추가">
-	     </div>
-	 </form>
- 	</div>
+
+	<div class="wrap">
+   <div class="search">
+   	 <form action="../friendadd/" name="frm" id = "frm" method="post">
+       {% csrf_token %}
+      <input type="text" name="friendid" id="friend_id" placeholder="추가할 ID 입력">
+      <input type ="hidden" name = "clientid" value="{{clientid}}" id="client_id">
+
+           <input id="button" type="button" value="추가">
+ 	</form>
+   </div>
+</div>
+
 
 <!--
 <div style="width:500px;margin:auto;margin-top:200px;">
@@ -84,17 +149,16 @@
 </form>
 -->
 
-
-
-
-<div style="width:200px;">
-<h3>친구 목록</h3>
-</div>
-<div style="width:200px;">
+<br><br><br><br><br><br><br><br>
+<hr>
+<div  class="friends">친구 목록<br>
+	
+<div class="scroll-bar" style="overflow-y:scroll; overflow-x:hidden; width:200px;height: 200px;">
 {% for a in flist %}
       {{a.friendid}}
       <br>
 {%endfor%}
+</div>
 </div>
 
 <!--
@@ -134,8 +198,7 @@
 -->
 
 
-
-
-
 </body>
+
 </html>
+

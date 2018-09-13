@@ -712,6 +712,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework import viewsets
 from django.core.files.storage import FileSystemStorage
+import cv2
 
 
 class JSONResponse(HttpResponse):
@@ -741,12 +742,23 @@ class PassIdViewSet(viewsets.ModelViewSet):
 		return JSONResponse(response_data)
 
 def test(request):
-	return render(request, "././index.html")
+	return render(request, "./newtest/index.html")
 
 
 class ClientViewSet(viewsets.ModelViewSet):
 	queryset = Client.objects.all()
 	serializer_class = ClientSerializer
+
+
+
+
+def get_video_duration(file_path):
+        cap = cv2.VideoCapture(file_path)
+        cap.set(cv2.CAP_PROP_POS_AVI_RATIO,1)
+        num_frames = cap.get(cv2.CAP_PROP_POS_FRAMES)
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        duration = float(num_frames) / float(fps)
+        return int(duration)
 
 
 
@@ -765,31 +777,40 @@ def upload_file(request):
 			)
 		file.save()
 
-		return render(request, './index.html')
+
+		ds = get_video_duration('.' + file.video.url)
+
+		if ds <10 or ds>30 :
+			file.delete()
+
+		context = {'ds':ds}
+		
+
+
+
+		return render(request, 'newtest/index.html')
 
 	else :
 		#print(request.path.split('/')[2])
-		context = { 'clientid' : request.path.split('/')[2] 			
+		context = { 'clientid' : request.path.split('/')[2], 'ds':'-1',			
 		}
 
-		return render(request, './index.html', context)
+		return render(request, 'newtest/index.html', context)
 
 
 def show_file(request):
 	
 	if(request.method=='GET') :
-		medias = Thumbnail.objects.filter(user_id = request.path.split('/')[2])
-
-		print(medias)
+		medias = Thumbnail.objects.filter(clientid = request.path.split('/')[2])
 
 		context = { 'clientid' : request.path.split('/')[2] ,
 					'medias' : medias
 		}
 
-		return render(request, './index2.html', context)
+		return render(request, 'newtest/index2.html', context)
 
 	else:
-		return render(request, './index2.html')
+		return render(request, 'newtest/index2.html')
 
 
 
@@ -820,7 +841,7 @@ def friend_add(request):
 		print(context)
 
 
-		return render(request, './friend.html', context)
+		return render(request, 'newtest/friend.html', context)
 
 	else :
 
@@ -832,7 +853,7 @@ def friend_add(request):
 					'flist' : flist,	
 		}
 
-		return render(request, './friend.html', context)
+		return render(request, 'newtest/friend.html', context)
 
 
 def friend_list(request):
@@ -866,7 +887,7 @@ def friend_list(request):
 		}
 		print(context)
 
-		return render(request, './friendadd.html', context)
+		return render(request, 'newtest/friendadd.html', context)
 
 	elif request.POST.get("no",False) == '0':
 
@@ -884,7 +905,7 @@ def friend_list(request):
 					'flist' : flist,	
 		}
 
-		return render(request, './friendadd.html', context)
+		return render(request, 'newtest/friendadd.html', context)
 
 	else :
 
@@ -896,7 +917,7 @@ def friend_list(request):
 					'flist' : flist,	
 		}
 
-		return render(request,'./friendadd.html',context)
+		return render(request,'newtest/friendadd.html',context)
 
 def ajaxpass(request):
 	friendid = request.GET.get('friendid', None)
