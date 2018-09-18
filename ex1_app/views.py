@@ -760,7 +760,10 @@ def get_video_duration(file_path):
         cap.set(cv2.CAP_PROP_POS_AVI_RATIO,1)
         num_frames = cap.get(cv2.CAP_PROP_POS_FRAMES)
         fps = cap.get(cv2.CAP_PROP_FPS)
-        duration = float(num_frames) / float(fps)
+        try :
+        	duration = float(num_frames) / float(fps)
+        except :
+        	duration = float(num_frames) / 1
         return int(duration)
 
 
@@ -783,7 +786,7 @@ def upload_file(request):
 
 		ds = get_video_duration('.' + file.video.url)
 
-		if ds <10 or ds>30 :
+		if ds<10 or ds>30 :
 			file.delete()
 
 		context = {'ds':ds}
