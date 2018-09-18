@@ -480,11 +480,11 @@ class ThumbnailViewSet(viewsets.ModelViewSet) :
 
 
 		#new_thumbnail.save()
-		if max_ssim > 0.4 or max_flann >= 10 :
+		if max_ssim > 0.3 or max_flann >= 10 :
 			print("1",max_ssim, max_flann)
 			response_data = {"success" : "1", "max_id" : max_id, "duration" : duration, "total_sec" : total_sec}
 
-			if max_ssim > 0.4 and max_flann < 10 :
+			if max_ssim > 0.3 and max_flann < 10 :
 				print("0",max_ssim, max_flann)
 				response_data = {"success" : "0", "max_id" : max_id, "duration" : duration, "total_sec" : total_sec}
 		else :
