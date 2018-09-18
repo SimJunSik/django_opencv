@@ -745,7 +745,7 @@ class PassIdViewSet(viewsets.ModelViewSet):
 		return JSONResponse(response_data)
 
 def test(request):
-	return render(request, "./newtest/index.html")
+	return render(request, "././index.html")
 
 
 class ClientViewSet(viewsets.ModelViewSet):
@@ -791,14 +791,14 @@ def upload_file(request):
 
 
 
-		return render(request, 'newtest/index.html')
+		return render(request, './index.html')
 
 	else :
 		#print(request.path.split('/')[2])
 		context = { 'clientid' : request.path.split('/')[2], 'ds':'-1',			
 		}
 
-		return render(request, 'newtest/index.html', context)
+		return render(request, './index.html', context)
 
 
 def show_file(request):
@@ -810,10 +810,10 @@ def show_file(request):
 					'medias' : medias
 		}
 
-		return render(request, 'newtest/index2.html', context)
+		return render(request, './index2.html', context)
 
 	else:
-		return render(request, 'newtest/index2.html')
+		return render(request, './index2.html')
 
 
 
@@ -844,7 +844,7 @@ def friend_add(request):
 		print(context)
 
 
-		return render(request, 'newtest/friend.html', context)
+		return render(request, './friend.html', context)
 
 	else :
 
@@ -856,7 +856,7 @@ def friend_add(request):
 					'flist' : flist,	
 		}
 
-		return render(request, 'newtest/friend.html', context)
+		return render(request, './friend.html', context)
 
 
 def friend_list(request):
@@ -890,7 +890,7 @@ def friend_list(request):
 		}
 		print(context)
 
-		return render(request, 'newtest/friendadd.html', context)
+		return render(request, './friendadd.html', context)
 
 	elif request.POST.get("no",False) == '0':
 
@@ -908,7 +908,7 @@ def friend_list(request):
 					'flist' : flist,	
 		}
 
-		return render(request, 'newtest/friendadd.html', context)
+		return render(request, './friendadd.html', context)
 
 	else :
 
@@ -920,7 +920,7 @@ def friend_list(request):
 					'flist' : flist,	
 		}
 
-		return render(request,'newtest/friendadd.html',context)
+		return render(request,'./friendadd.html',context)
 
 def ajaxpass(request):
 	friendid = request.GET.get('friendid', None)
