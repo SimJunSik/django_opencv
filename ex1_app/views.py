@@ -452,7 +452,10 @@ class ThumbnailViewSet(viewsets.ModelViewSet) :
 				
 			print(thumbnail.img.url + "   " + str(compare_ssim(img_cv,thumbnail_cv)))
 
-			#res = cv2.drawMatches(img1, kp1, img2, kp2, good, res, flags=2)
+			res = cv2.drawMatches(img_cv, kp1, thumbnail_cv, kp2, good, res, flags=2)
+			#cv2.imshow(thumbnail.img.url, res)
+			#cv2.waitKey(0)
+			#cv2.imwrite('./media/compare_' + thumbnail.img.url, res)
 			#matches = sorted(matches, key = lambda  x:x.distance)
 			#Qres = cv2.drawMatches(img1, kp1, img2, kp2, matches[:30], res, flags=0)
 			print("          " + str(len(good)))
