@@ -778,7 +778,13 @@ def upload_file(request):
 
 		fs = FileSystemStorage()
 		#filename = fs.save(img.name, img)
+		"""
 		file = Media(clientid = clientid, 
+			img = img, 
+			video = video
+			)
+		"""
+		file = Thumbnail(user_id = clientid, 
 			img = img, 
 			video = video
 			)
