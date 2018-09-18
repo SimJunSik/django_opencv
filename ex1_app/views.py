@@ -764,6 +764,7 @@ def get_video_duration(file_path):
         	duration = float(num_frames) / float(fps)
         except :
         	duration = float(num_frames) / 1
+        print(num_frames, fps, duration)
         return int(duration)
 
 
