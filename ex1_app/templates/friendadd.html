@@ -1,25 +1,30 @@
 
 <!DOCTYPE html>
 <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-<link rel = "stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+<link href="https://fonts.googleapis.com/css?family=Poor+Story" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet"> 
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
 <style type="text/css">
-	    html, body {
-        background-image: url("/static/newtest/img1.jpg");
+       html, body {
+        background-image: url("/static/newtest/img3.png");
         background-size: auto;
        height:100%; 
        margin:0px; 
        padding:0px; 
-    }
-    h2{
-    	font-family: 'Nanum Gothic Coding', monospace;
 
     }
+
+    h3{
+       font-family: 'Poor Story', cursive;
+       color:#4C4C4C;
+    }
+
+
 
 input[type="submit"] { 
         border: solid 1px #ccc; 
@@ -49,50 +54,52 @@ input[type="submit"]:active {
 }
 
 #abc{
-	font-size: 15px;
+   font-size: 15px;
+   color:#4C4C4C;
+   font-family: 'Poor Story', cursive;
 }
 
 </style>
 
 <script type="text/javascript">
-	
-	function check(num){
+   
+   function check(num){
 
-		if(num.yes.value == "1"){
-			alert("수락하셨습니다.")
-			return true;
-		}
-		else{
-			alert("수락 실패")
-			return false;
-		}
+      if(num.yes.value == "1"){
+         alert("수락하셨습니다.")
+         return true;
+      }
+      else{
+         alert("수락 실패")
+         return false;
+      }
 
-	}
+   }
 
-	function check2(num2){
-		if(num2.no.value == "0"){
-			alert("거절하셨습니다.")
-			return true;
-		}
-		else{
-			alert("거절 실패")
-			return false;
-		}
+   function check2(num2){
+      if(num2.no.value == "0"){
+         alert("거절하셨습니다.")
+         return true;
+      }
+      else{
+         alert("거절 실패")
+         return false;
+      }
 
-	}
+   }
 </script>
 
 </head>
 
 <body>
 
-<div style="width:200px;">
-<h2>친구 신청</h2>
+<div>
+<h3>친구 요청목록</h3>
 </div>
 <hr>
 {% for add in addlist %}
 <div style="width:200px;margin-top:30px;">
-	<div id="abc">
+   <div id="abc">
       {{add.friendid}}
   </div>
     <div style="margin-top:5px;display: inline;float: left;">
@@ -101,29 +108,29 @@ input[type="submit"]:active {
  -->
 
  <form action = "../../friendlist/" onsubmit="return check(this)" name ='{{add.friendid}}' id = '{{add.friendid}}' method="post">
- 	{% csrf_token %}
- 	<input type="hidden" name ="clientid" value="{{clientid}}">
- 	<input type="hidden" name ="friendid" value="{{add.friendid}}">
+    {% csrf_token %}
+    <input type="hidden" name ="clientid" value="{{clientid}}">
+    <input type="hidden" name ="friendid" value="{{add.friendid}}">
     <input type="hidden" name ="yes" id="yes" value=1>
     <input type= "submit"  value="수락">
 
 </form>
-	</div>
+   </div>
 
-	<div style="margin-top:5px;display: inline;float: left;">
-<!--		
+   <div style="margin-top:5px;display: inline;float: left;">
+<!--      
 <form action = "../../friendlist/" id=nop method="post">
 -->
 <form action = "../../friendlist/" onsubmit="return check2(this)" name = '"+{{add.friendid}}+"2' id= '"+{{add.friendid}}+"2' method="post">
-	{% csrf_token %}
-	<input type="hidden" name ="clientid" value="{{clientid}}">
-	<input type="hidden" name ="friendid" value="{{add.friendid}}">
-	<input type="hidden" name="no" id="no" value=0>
-	<input type= "submit" id="zz"  value="거절">
+   {% csrf_token %}
+   <input type="hidden" name ="clientid" value="{{clientid}}">
+   <input type="hidden" name ="friendid" value="{{add.friendid}}">
+   <input type="hidden" name="no" id="no" value=0>
+   <input type= "submit" id="zz"  value="거절">
 
 
 </form>
-	</div>
+   </div>
 </div>
 <br>
 {%endfor%}

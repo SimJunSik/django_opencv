@@ -1,12 +1,32 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<link href="https://fonts.googleapis.com/css?family=Poor+Story" rel="stylesheet"> 
+<style>
+.clientid{
+   font-family: 'Poor Story', cursive;
+   font-size: 30px;
+}
+</style>
+
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+<style type="text/css">
+       html, body {
+        background-image: url("/static/newtest/img2.png");
+        background-size: auto;
+       height:100%; 
+       margin:0px; 
+       padding:0px; 
+    }
+</style>
 <title>등록한 썸네일들</title>
 </head>
 <body>
-<font face="HYBDAL.TTF"><font size="6">{{clientid}}님 반갑습니다</font>
-	<br>
+<div class = "clientid">{{clientid}}님 반갑습니다</div>
+   <br>
    {% for media in medias %}
   		{{media.img}}
   		<br>
