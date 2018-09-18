@@ -804,7 +804,7 @@ def upload_file(request):
 def show_file(request):
 	
 	if(request.method=='GET') :
-		medias = Thumbnail.objects.filter(clientid = request.path.split('/')[2])
+		medias = Thumbnail.objects.filter(user_id = request.path.split('/')[2])
 
 		context = { 'clientid' : request.path.split('/')[2] ,
 					'medias' : medias
