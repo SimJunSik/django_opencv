@@ -790,11 +790,8 @@ def upload_file(request):
 			file.delete()
 
 		context = {'ds':ds}
-		
 
-
-
-		return render(request, './index.html')
+		return render(request, './index.html', context)
 
 	else :
 		#print(request.path.split('/')[2])
