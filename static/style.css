@@ -1,24 +1,27 @@
  .upload-hidden {
-       margin-left : 10px;
+
+       margin-left : 20px;
        margin-bottom: 5px;
       display:inline-block;
-      font-family: 'Nanum Gothic Coding', monospace;
-      font-size : 25px;
+      font-family: 'Roboto', sans-serif;
+      font-size : 20px;
         width:30%;
-        height:40px;
+        height:35px;
         border:1px solid #FFFFFF;
         border-radius: 7px;
         color:#FFFFFF;
         text-align: center;
         line-height: 40px;
+        float: left;
     }
     
 
  .submit {
-        font-family: 'Nanum Gothic Coding', monospace;
+        margin-top: 5px;
+        font-family: 'Roboto', sans-serif;
         display:inline-block;
-        width:80%;
-        height:40px;
+        width:90%;
+        height:35px;
         border:1px solid #FFFFFF;
         border-radius: 7px;
         font-size:25px;
@@ -43,19 +46,23 @@
     
 
     .upload-name {
+            margin-left: 5px;
             border-radius: 5px;
             border:1px solid #FFFFFF;
-            width: 50%;
-            height : 40px;
+            width: 55%;
+            height : 35px;
             text-align: center;
+            float: left;
     }
 
     .upload-name1 {
+            margin-left: 5px;
             border-radius: 5px;
             border:1px solid #FFFFFF;
-            width: 50%;
-            height : 40px;
+            width: 55%;
+            height : 35px;
             text-align: center;
+            float: left;
     }
 
 
@@ -66,18 +73,25 @@
     .wrapper{
           width:100%; 
           height:100%;
-          background-image: url(img2.png);
+          background-image: url(qwe2.png);
           background-position:center;
     }
 
     
     .box {
        width:50%; 
-       height:60%;
+       height:55%;
        text-align: center;
        background-color: #747474;
        border-radius: 7px;
        opacity: 0.3;
        margin: 0 auto;
        padding:45px 44px 38px 44px;
+    }
+
+
+
+    .innerBox{
+        margin: 0 auto;
+        overflow: hidden;
     }
